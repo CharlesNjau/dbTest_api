@@ -15,9 +15,9 @@ $sql="SELECT* FROM customers";
 
 
      $servername='localhost';
-	 $username='root';
-	 $password='';
-	 $dbname='slimapp';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
 
 
 try {
@@ -51,9 +51,9 @@ $sql="SELECT* FROM customers WHERE first_name='".$name."'";
 
 
      $servername='localhost';
-	 $username='root';
-	 $password='';
-	 $dbname='slimapp';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
 
 
 try {
@@ -209,5 +209,376 @@ $conn = null;
 }
 
 }); 
+
+//API UPDATE firstname
+$app->put('/api/Update/firstname/{name}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$firstname=$require->getAttribute('name');
+$first_name=$require->getParam('first_name');
+
+if($first_name===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"first_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}
+
+else{
+        $sql="UPDATE customers SET first_name='$first_name' WHERE first_name='$first_name'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('first_name'=>$first_name ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+}); 
+//API UPDATE NAME 
+$app->put('/api/Update/lastname/{name}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$lasttname=$require->getAttribute('name');
+$last_name=$require->getParam('last_name');
+
+if($last_name===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}
+
+else{
+        $sql="UPDATE customers SET last_name='$last_name' WHERE last_name='$last_name'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('last_name'=>$last_name ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+}); 
+//API UPDATE PHONE
+$app->put('/api/Update/Phone/{email}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$email=$require->getAttribute('email');
+$phone=$require->getParam('phone');
+
+if($phone===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+     $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+
+
+}
+
+else{
+        $sql="UPDATE customers SET phone='$phone' WHERE email='$email'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('phone'=>$phone ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+}); 
+//API UPDATE EMAIL
+$app->put('/api/Update/Email/{email}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$mail=$require->getAttribute('email');
+$email=$require->getParam('email');
+
+if($email===""||$mail===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Email is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+     $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+
+
+}
+
+else{
+        $sql="UPDATE customers SET email='$email' WHERE email='$mail'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Email'=>$email ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+}); 
+//API UPDATE ADDRESS
+$app->put('/api/Update/address/{email}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$mail=$require->getAttribute('email');
+$address=$require->getParam('address');
+
+if($address===""||$mail===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"address is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+     $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+
+
+}
+
+else{
+        $sql="UPDATE customers SET address='$address' WHERE email='$mail'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Email'=>$email ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+});
+//API UPDATE STATE
+$app->put('/api/Update/state/{email}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$mail=$require->getAttribute('email');
+$state=$require->getParam('state');
+
+if($email===""||$mail===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Email is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+     $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+
+
+}
+
+else{
+        $sql="UPDATE customers SET email='$email' WHERE state='$state'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Email'=>$email ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+});
+//API UPDATE IMAGE
+$app->put('/api/Update/image/{email}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$mail=$require->getAttribute('email');
+$Image=$require->getParam('Image');
+
+if($Image===""||$mail===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"image is empty",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+     $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+
+
+}
+
+else{
+        $sql="UPDATE customers SET email='$Image' WHERE email='$mail'";
+
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Image'=>$email ));
+   echo json_encode($Message);  
+    
+}
+catch(PDOException $e) {
+   $Message= array('Error' =>'Error Posting Data','Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+   echo json_encode($Message); 
+}
+$conn = null;
+
+}
+
+
+
+});
+
+
 
 ?>
