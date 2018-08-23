@@ -534,7 +534,7 @@ if($Image===""||$mail===""){
 
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"image is empty",'Status'=>'400','Status message'=>'Bad Request'));
 echo json_encode($Message);
-}else if(filter_var($email,FILTER_VALIDATE_EMAIL)!=true){
+}else if(filter_var($mail,FILTER_VALIDATE_EMAIL)!=true){
      $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Please enter a valid email",'Status'=>'400','Status message'=>'Bad Request'));
 echo json_encode($Message);
 
@@ -542,7 +542,7 @@ echo json_encode($Message);
 }
 
 else{
-        $sql="UPDATE customers SET email='$Image' WHERE email='$mail'";
+        $sql="UPDATE customers SET image='$Image' WHERE email='$mail'";
 
 
 
@@ -563,7 +563,7 @@ try {
 
     // echo a message to say the UPDATE succeeded
     //echo $stmt->rowCount() . " records UPDATED successfully";
-    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Image'=>$email ));
+    $Message= array('Success' =>'Record Updated succesfully','Status'=>'201','Upated To'=>array('Image'=>$Image));
    echo json_encode($Message);  
     
 }
@@ -579,6 +579,53 @@ $conn = null;
 
 });
 
+//Api delete first_name
+$app->delete('/api/delete/customer/{first_name}',function(Request $require,Response $response){
+//echo "CUSTOMER ROUTE WRKING";
+$first_name=$require->getAttribute('first_name');
+
+if($first_name===""){
+
+$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"Empty field",'Status'=>'400','Status message'=>'Bad Request'));
+echo json_encode($Message);
+}
+else{
+        $sql="DELETE FROM customers WHERE first_name='$first_name'";
 
 
+
+
+     $servername='localhost';
+     $username='root';
+     $password='';
+     $dbname='slimapp';
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare statement
+    $stmt = $conn->prepare($sql);
+
+    // execute the query
+    $stmt->execute();
+
+    // echo a message to say the UPDATE succeeded
+    //echo $stmt->rowCount() . " records UPDATED successfully";
+    $Message= array('Success' =>$first_name.' deleted succesfully!','Status'=>'201');
+   echo json_encode($Message);  
+    
+    }
+catch(PDOException $e) 
+    {
+    $Message= array('Error' =>'Error while deleting '.$first_name,'Error Report'=>array('Server error Meassge'=>$e->getMessage(),'Status'=>'409','Status message'=>'Bad Request'));
+       echo json_encode($Message); 
+    }
+$conn = null;
+
+}
+
+
+
+});
 ?>
